@@ -1,0 +1,687 @@
+{
+    "baas": {
+        "base": {
+            "package": "com.RoamingStar.BlueArchive",
+            "serial": "127.0.0.1:16416",
+            "ss_rate": 0.3,
+            "error_restart_game": true,
+            "debug": false
+        },
+        "close_game": {
+            "enable": true
+        },
+        "notify": {
+            "enable": true,
+            "finish_single": true,
+            "finish_all": false,
+            "failure": true
+        }
+    },
+    "restart": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": 999,
+            "interval": 0,
+            "next": "2024-12-02 4:00:00",
+            "text": "重启设置"
+        }
+    },
+    "env_check": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": -99999999,
+            "interval": 99999999,
+            "next": "2027-12-14 17:51:47",
+            "text": "环境检查"
+        }
+    },
+    "arena": {
+        "base": {
+            "enable": false,
+            "index": -999,
+            "next": "2025-12-18 05:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "战术对抗赛"
+        },
+        "config": {
+            "less_level": 0,
+            "get_type": "five",
+            "max_refresh": 5
+        }
+    },
+    "shop": {
+        "base": {
+            "enable": true,
+            "index": 50,
+            "next": "2025-12-19 05:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "商店购买"
+        },
+        "general": {
+            "enable": true,
+            "count": 1,
+            "goods": [
+                7,
+                8,
+                11,
+                12,
+                15,
+                16,
+                18,
+                19,
+                20,
+                17,
+                21,
+                22,
+                23,
+                24
+            ]
+        },
+        "arena": {
+            "enable": false,
+            "count": 1,
+            "goods": [
+                5,
+                6
+            ]
+        }
+    },
+    "cafe": {
+        "base": {
+            "enable": true,
+            "index": 1,
+            "next": "",
+            "end": "",
+            "interval": 10630,
+            "link_task": "",
+            "text": "咖啡厅"
+        },
+        "ap": {
+            "enable": false
+        },
+        "invite": {
+            "enable": false,
+            "type": "selected"
+        }
+    },
+    "schedule": {
+        "base": {
+            "enable": false,
+            "index": 30,
+            "next": "2025-12-18 05:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "日程"
+        },
+        "config": [
+            {
+                "schedule": 3,
+                "count": 2
+            },
+            {
+                "schedule": 5,
+                "count": 2
+            },
+            {
+                "schedule": 6,
+                "count": 2
+            }
+        ]
+    },
+    "group": {
+        "base": {
+            "enable": true,
+            "end": "",
+            "index": 40,
+            "interval": 0,
+            "link_task": "",
+            "next": "2025-12-19 05:00:00",
+            "text": "小组"
+        }
+    },
+    "wanted": {
+        "base": {
+            "enable": true,
+            "end": "",
+            "index": 50,
+            "interval": 0,
+            "link_task": "",
+            "next": "2025-12-19 05:00:00",
+            "text": "通缉悬赏"
+        },
+        "gjgl": {
+            "count": 5,
+            "enable": true,
+            "stage": 9
+        },
+        "jt": {
+            "count": 5,
+            "enable": true,
+            "stage": 9
+        },
+        "smtl": {
+            "count": 5,
+            "enable": true,
+            "stage": 9
+        }
+    },
+    "special_entrust": {
+        "base": {
+            "enable": false,
+            "index": 60,
+            "next": "2023-11-17 00:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "特殊委托"
+        },
+        "jdfy": {
+            "enable": true,
+            "stage": 1,
+            "count": 1
+        },
+        "xyhs": {
+            "enable": true,
+            "stage": 1,
+            "count": 1
+        }
+    },
+    "exchange_meeting": {
+        "base": {
+            "enable": true,
+            "index": 65,
+            "next": "2025-12-19 05:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "学园交流会"
+        },
+        "cnd": {
+            "enable": true,
+            "stage": 4,
+            "count": 5
+        },
+        "ghn": {
+            "enable": true,
+            "stage": 4,
+            "count": 5
+        },
+        "qxn": {
+            "enable": true,
+            "stage": 4,
+            "count": 5
+        }
+    },
+    "main_story": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": 65,
+            "interval": 0,
+            "link_task": "",
+            "next": "2025-12-18 05:00:00",
+            "text": "主线故事"
+        },
+        "config": {
+            "before": 0.5,
+            "stage": [
+                "1-3"
+            ]
+        }
+    },
+    "hard_task": {
+        "base": {
+            "enable": true,
+            "index": 10,
+            "next": "2025-12-19 05:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "扫荡困难关卡"
+        },
+        "scan": {
+            "enable": true,
+            "stage": [
+                "20-3-max"
+            ]
+        },
+        "scan2": {
+            "enable": false,
+            "stage": []
+        }
+    },
+    "normal_task": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": 9999,
+            "interval": 0,
+            "link_task": "",
+            "next": "2025-12-18 05:00:00",
+            "text": "扫荡普通关卡"
+        },
+        "scan": {
+            "enable": false,
+            "stage": [
+                "10-3-1",
+                "12-5-1"
+            ]
+        },
+        "scan2": {
+            "enable": true,
+            "stage": [
+                "1-tr-14"
+            ]
+        }
+    },
+    "mailbox": {
+        "base": {
+            "enable": false,
+            "index": 85,
+            "next": "2023-11-17 00:00:00",
+            "end": "",
+            "interval": 3600,
+            "link_task": "",
+            "text": "领取邮箱"
+        }
+    },
+    "work_task": {
+        "base": {
+            "enable": false,
+            "index": 90,
+            "next": "2025-11-07 02:30:47",
+            "end": "",
+            "interval": 3600,
+            "link_task": "",
+            "text": "工作任务"
+        }
+    },
+    "buy_ap": {
+        "base": {
+            "enable": false,
+            "index": 100,
+            "next": "2023-11-17 00:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "work_task",
+            "text": "购买体力"
+        },
+        "config": {
+            "count": 6
+        }
+    },
+    "make": {
+        "base": {
+            "enable": false,
+            "index": 110,
+            "next": "2023-11-17 00:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "work_task",
+            "text": "制造"
+        },
+        "config": {
+            "use_acc_ticket": true,
+            "count": 4,
+            "priority": [
+                "花",
+                "灿烂",
+                "万圣节",
+                "MomoFriends咖啡厅",
+                "果冻游戏中心",
+                "色彩",
+                "家具",
+                "光芒",
+                "金属",
+                "黄金",
+                "铜",
+                "白银",
+                "隐然",
+                "玲珑"
+            ],
+            "quick": true
+        }
+    },
+    "momo_talk": {
+        "base": {
+            "enable": true,
+            "end": "",
+            "index": 999,
+            "interval": 0,
+            "link_task": "",
+            "next": "2025-12-19 05:00:00",
+            "text": "桃信"
+        }
+    },
+    "delete_friend": {
+        "base": {
+            "enable": false,
+            "index": 1000,
+            "next": "2023-11-17 00:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "删除好友"
+        }
+    },
+    "fhx": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": -99999,
+            "interval": 999999999,
+            "link_task": "",
+            "next": "2056-06-21 09:54:01",
+            "text": "反和谐"
+        }
+    },
+    "exp_normal_task": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": -99,
+            "interval": 9999999,
+            "link_task": "",
+            "next": "2026-03-02 19:01:15",
+            "text": "普通关卡-开图"
+        },
+        "config": {
+            "before": 2,
+            "easy_mode": false,
+            "mode": 2,
+            "region_list": [
+                "26"
+            ]
+        }
+    },
+    "exp_hard_task": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": -99,
+            "interval": 9999999,
+            "link_task": "",
+            "next": "2026-03-02 19:01:44",
+            "text": "困难关卡-开图"
+        },
+        "config": {
+            "before": 2,
+            "easy_mode": false,
+            "mode": 2,
+            "region_list": [
+                "25"
+            ]
+        }
+    },
+    "challenge_hard_task": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": -99,
+            "interval": 9999999,
+            "link_task": "work_task",
+            "next": "2026-03-02 19:16:48",
+            "text": "困难关卡-挑战"
+        },
+        "config": {
+            "before": 1.5,
+            "easy_mode": false,
+            "stage": []
+        }
+    },
+    "total_war": {
+        "base": {
+            "enable": false,
+            "index": 120,
+            "next": "2023-11-17 00:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "总力战"
+        },
+        "exp": {
+            "enable": false,
+            "stage": "1234"
+        },
+        "scan": {
+            "enable": false,
+            "stage": 4
+        },
+        "help": {
+            "enable": false
+        },
+        "force": {
+            "mode": 2
+        }
+    },
+    "jp_activity": {
+        "base": {
+            "enable": false,
+            "index": 300,
+            "next": "",
+            "end": "",
+            "interval": 3600,
+            "link_task": "",
+            "text": "日服活动-Say Bing!"
+        },
+        "story_exp": {
+            "enable": true
+        },
+        "task_exp": {
+            "enable": true
+        },
+        "scan": {
+            "enable": true,
+            "stage": [
+                "9-1"
+            ]
+        },
+        "bonus": {
+            "enable": true,
+            "bonus1": [
+                9,
+                10,
+                11
+            ],
+            "bonus2": [
+                9,
+                11
+            ],
+            "bonus3": [
+                9,
+                12
+            ]
+        }
+    },
+    "intl_activity": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": 300,
+            "interval": 3600,
+            "link_task": "",
+            "next": "2023-11-17 00:00:00",
+            "text": "国际服活动-甜蜜枪战"
+        },
+        "scan": {
+            "enable": true,
+            "stage": []
+        },
+        "story_exp": {
+            "enable": true
+        },
+        "task_exp": {
+            "enable": true
+        },
+        "bonus": {
+            "enable": true,
+            "bonus1": [
+                9,
+                10,
+                11
+            ],
+            "bonus2": [
+                9,
+                10
+            ],
+            "bonus3": [
+                9,
+                11
+            ]
+        }
+    },
+    "cn_activity": {
+        "base": {
+            "enable": true,
+            "index": 300,
+            "next": "",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "国服-通用活动"
+        },
+        "story_exp": {
+            "enable": true
+        },
+        "task_exp": {
+            "enable": true
+        },
+        "scan": {
+            "enable": false,
+            "stage": []
+        },
+        "bonus": {
+            "enable": false,
+            "bonus1": [
+                9,
+                10,
+                11,
+                12
+            ],
+            "bonus2": [
+                9,
+                12
+            ],
+            "bonus3": [
+                10,
+                12
+            ],
+            "bonus4": [
+                11,
+                12
+            ]
+        },
+        "exchange": {
+            "enable": false
+        },
+        "draw_card": {
+            "enable": false
+        },
+        "dice": {
+            "enable": false
+        }
+    },
+    "tactics_test": {
+        "base": {
+            "enable": false,
+            "index": 120,
+            "next": "2023-11-17 00:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "",
+            "text": "战术测试"
+        },
+        "exp": {
+            "enable": true,
+            "auto": true,
+            "help": true,
+            "stage": "222"
+        },
+        "scan": {
+            "enable": true
+        }
+    },
+    "god_cross": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": 300,
+            "interval": 3600,
+            "link_task": "",
+            "next": "2023-11-17 00:00:00",
+            "text": "国服活动-神名十字"
+        },
+        "scan": {
+            "enable": true,
+            "stage": [
+                "10-1"
+            ]
+        },
+        "story_exp": {
+            "enable": true
+        },
+        "task_exp": {
+            "enable": true
+        }
+    },
+    "challenge_normal_task": {
+        "base": {
+            "enable": false,
+            "index": -99,
+            "next": "2025-03-14 05:00:00",
+            "end": "",
+            "interval": 0,
+            "link_task": "work_task",
+            "text": "普通关卡-挑战"
+        },
+        "config": {
+            "stage": [
+                "23-5"
+            ],
+            "easy_mode": false,
+            "before": 2
+        }
+    },
+    "activity_story": {
+        "base": {
+            "enable": false,
+            "index": 310,
+            "next": "2023-11-17 00:00:00",
+            "end": "",
+            "interval": 86400,
+            "link_task": "",
+            "text": "活动一览-活动故事"
+        }
+    },
+    "cn_jmjh": {
+        "base": {
+            "enable": false,
+            "end": "",
+            "index": 300,
+            "interval": 3600,
+            "link_task": "",
+            "next": "2023-11-17 00:00:00",
+            "text": "国服活动-泳4海之家加盟计划"
+        },
+        "occupy": {
+            "enable": true,
+            "stage": "1"
+        },
+        "occupy_all": {
+            "enable": false,
+            "stage": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+        }
+    }
+}
