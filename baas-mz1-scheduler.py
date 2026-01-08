@@ -1,13 +1,16 @@
 import json
-import time
+from time import sleep
 import subprocess
 import logging
 import os
-from datetime import datetime, date, time as dt_time
+from datetime import datetime, date, timedelta
 import threading
 from dataclasses import dataclass
 import requests
 from schedule import every, repeat, run_pending, idle_seconds
+
+
+NEXT_ACTIVITY_DATE = date(2026, 1, 8)
 
 
 class Configuration:
@@ -34,7 +37,6 @@ CONFIGURATIONS = [
     Configuration('8-很厉害2', 3),
 ]
 
-NEXT_ACTIVITY_DATE = date(2025, 12, 18)
 
 for index, config in enumerate(CONFIGURATIONS):
     config.time_off = index
@@ -107,7 +109,9 @@ def toggle_next_time(data, key, value, config_name):
     return data
 
 
-def toggle_invite_enable(data, enable, mode, config_name):
+def toggle_cafe_enable(data, enable, mode, config_name):
+
+    # mode = invite or ap
 
     if mode == '':
         mode = 'invite'
@@ -128,14 +132,9 @@ def toggle_activity_enable(data, key, enable, config_name):
     return data
 
 
-def restart_mumu_instance(config: Configuration, mode: str = "R"):
+def restart_mumu_instance(config: Configuration, mode: str):
 
-    if mode == "R":
-        mode = "restart"
-    if mode == 'L':
-        mode = "launch"
-    if mode == "S":
-        mode = "shutdown"
+    assert mode in ('restart', 'launch', 'shutdown')
 
     mumu_manager = r'C:\Program Files\Netease\MuMu Player 12\nx_main\MuMuManager.exe'
     args = ['control', '-v', str(config.instance), mode]
@@ -186,21 +185,32 @@ def get_daily_task_timeoff(config: Configuration) -> tuple[int, int]:
     return hour, minute
 
 
+def get_task_time_off(minutes_after, hour=None):
+
+    today = datetime.now().date()
+    if hour is None:
+        hour = 5
+
+    base_dt = datetime.combine(today, datetime.min.time()).replace(hour=hour)
+
+    result_dt = base_dt + timedelta(seconds=minutes_after*60)
+
+    return result_dt.strftime("%Y-%m-%d %H:%M:%S")
+
+
 @repeat(every().day.at("03:55"))
 def update_midnight():
 
     for config in CONFIGURATIONS:
 
-        daily_time_off_hour, daily_time_off_minute = get_daily_task_timeoff(config)
-
         data = read_json(config.path)
-        time_str = f'{date.today()} {daily_time_off_hour:02d}:{daily_time_off_minute:02d}:00'
+        time_str = get_task_time_off(config.time_off*15)
         data = update_daily_tasks(data, time_str, config.only_daily_task, config.name)
-        data = toggle_invite_enable(data, False, 'ap', config.name)
+        data = toggle_cafe_enable(data, False, 'ap', config.name)
 
         if not config.only_daily_task:
             data = toggle_next_time(data, Activity.CAFE, time_str, config.name)
-            data = toggle_invite_enable(data, True, '', config.name)
+            data = toggle_cafe_enable(data, True, 'invite', config.name)
 
         if config.endday_jjc:
             data = toggle_activity_enable(data, Activity.JJC, False, config.name)
@@ -215,12 +225,11 @@ def update_afternoon():
         if config.only_daily_task:
             continue
 
-        daily_time_off_hour, daily_time_off_minute = get_daily_task_timeoff(config)
-        time_str = f'{date.today()} {daily_time_off_hour+11:02d}:{daily_time_off_minute:02d}:00'
+        time_str = get_task_time_off(config.time_off*15, 16)
 
         data = read_json(config.path)
         data = toggle_next_time(data, Activity.CAFE, time_str, config.name)
-        data = toggle_invite_enable(data, False, '', config.name)
+        data = toggle_cafe_enable(data, False, 'invite', config.name)
 
         write_json(config.path, data)
 
@@ -238,47 +247,81 @@ def update_endday_jjc():
 
 
 @repeat(every().day.at("04:59"), "daily_start")
-@repeat(every().day.at("07:59"))
-@repeat(every().day.at("10:59"))
-@repeat(every().day.at("13:59"))
-@repeat(every().day.at("15:59"))
-@repeat(every().day.at("18:30"), "activity_start")
-@repeat(every().day.at("21:59"))
-@repeat(every().day.at("00:59"))
 def update_mumu_emulator(flag: str | None = None):
 
     for config in CONFIGURATIONS:
+        if not config.only_daily_task:
+            continue
+
         time_off = config.time_off * 15 * 60
 
-        if NEXT_ACTIVITY_DATE == date.today():
-            if flag == 'activity_start':
-                update_activity_cn(config, time_off*2)
-                continue
-            if datetime.now().time() > dt_time(13, 50):
-                continue
+        set_timeout(restart_mumu_instance, time_off, config, 'launch')
+        set_timeout(start_baas, time_off+30, config, 'start')
 
+        set_timeout(start_baas, time_off+3600, config, 'stop')
+        set_timeout(restart_mumu_instance, time_off+3605, config, "shutdown")
+
+
+@repeat(every().day.at("04:57"))
+@repeat(every().day.at("07:59"))
+@repeat(every().day.at("10:59"))
+@repeat(every().day.at("13:59"))
+@repeat(every().day.at("15:57"))
+@repeat(every().day.at("21:59"))
+@repeat(every().day.at("00:59"))
+def restart_mumu_emulator():
+
+    if date.today() == NEXT_ACTIVITY_DATE:
+        if datetime.now().strftime("%H:%M") in {"13:59", "15:57"}:
+            return
+
+    for config in CONFIGURATIONS:
         if config.only_daily_task:
-            if flag == 'daily_start':
-                set_timeout(restart_mumu_instance, time_off, config, 'L')
-                set_timeout(start_baas, time_off+60, config, 'start')
-
-                set_timeout(start_baas, time_off+3600, config, 'stop')
-                set_timeout(restart_mumu_instance, time_off+3605, config, "S")
-
             continue
 
         data = read_json(config.path)
         target_time = datetime.strptime(data[Activity.CAFE]['base'].get('next'), "%Y-%m-%d %H:%M:%S")
         delta = target_time - datetime.now()
         if delta.total_seconds() > 60:
-            set_timeout(restart_mumu_instance, delta.total_seconds()-60, config)
-            set_timeout(start_baas, delta.total_seconds(), config, 'start')
+            set_timeout(restart_mumu_instance, delta.total_seconds()-60, config, 'restart')
+            set_timeout(start_baas, delta.total_seconds()-30, config, 'start')
 
 
-def update_activity_cn(config: Configuration, time_off: int):
+@repeat(every().day.at("19:00"))
+def update_activity_cn():
 
-    if '很厉害' in config.name:
-        start_baas(config, "start")
+    if date.today() != NEXT_ACTIVITY_DATE:
+        return
+
+    for config in CONFIGURATIONS:
+        if '很厉害' in config.name:
+            restart_mumu_instance(config, 'launch')
+            set_timeout(start_baas, 30, config, 'start')
+
+            set_timeout(start_baas, 3600*2, config, 'stop')
+            set_timeout(restart_mumu_instance, 3605*2, config, "shutdown")
+
+
+@repeat(every().day.at("21:00"))
+def update_activity_cn_2():
+
+    if date.today() != NEXT_ACTIVITY_DATE:
+        return
+
+    for config in CONFIGURATIONS:
+        if '很厉害' in config.name:
+            continue
+
+        if config.only_daily_task:
+            mode = 'launch'
+        else:
+            mode = 'restart'
+        restart_mumu_instance(config, mode)
+        set_timeout(start_baas, 30, config, 'start')
+
+        if config.only_daily_task:
+            set_timeout(start_baas, 3600*2, config, 'stop')
+            set_timeout(restart_mumu_instance, 3605*2, config, "shutdown")
 
 
 def main():
@@ -290,8 +333,8 @@ def main():
         if not data:
             raise ValueError(f"Config {config.path} read failed")
 
-        data = toggle_invite_enable(data, False, '', config.name)
-        data = toggle_invite_enable(data, False, 'ap', config.name)
+        data = toggle_cafe_enable(data, False, 'invite', config.name)
+        data = toggle_cafe_enable(data, False, 'ap', config.name)
         write_json(config.path, data)
 
     while True:
@@ -300,7 +343,7 @@ def main():
         if n is None:   # won’t happen with daily jobs, but safe
             break
         elif n > 0:
-            time.sleep(n)
+            sleep(n)
 
 
 if __name__ == "__main__":
